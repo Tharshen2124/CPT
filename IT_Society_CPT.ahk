@@ -1,36 +1,60 @@
 ﻿Alt::{
-	numOfColumns := InputBox("Enter number of columns to", "Number of Columns").value
-	sleep(100)
-
-	numOfRows := InputBox("Enter number of rows to", "Number of Rows").value
-	sleep(100)
-
-	PixelSearch(&OutputVarX, &OutputVarY, 0, 0, 600, 400, 0x1A73E8)
-
-	if(!OutputVarX && !OutputVarY && numOfColumns && numOfRows) {
-		MsgBox("Something went wrong...")
-		return
-	}
-
-	MouseClick "Left", OutputVarX+10, OutputVarY+10
-
-	Loop numOfRows {
-		loopThroughColumnsFunc(numOfColumns)
-		backToFirstColumnFunc(numOfColumns)
-	}
+	MyGui := Gui("")
+	MyGui.SetFont("s12")
+	MyGui.Add("Text", "Section Center w250", "IT Society CPT")
+	MyGui.SetFont("s10")
+	BtnMakeCopies := MyGui.Add("Button","Section w250", "Make Copies")
+	BtnTransfer := MyGui.Add("Button", "Section w250", "Transfer data from spreadsheet to docs")
+	BtnMakeCopies.OnEvent("Click", CallCopyFn)
+	BtnTransfer.OnEvent("Click", CallTransferFn)
+	MyGui.Show
 }
 
-^+s::{
-	numOfCopies := InputBox("How many copies do you want?", "Number of Columns").value
+CallCopyFn(*) {
+	MyGui := Gui("")
+	MyGui.SetFont("s12")
+	MyGui.Add("Text", "Section Center w250", "IT Society CPT")
+	MyGui.SetFont("s10")
+	MyGui.Add("Text","Section", "Enter number of columns: ")
+	MyGui.Add("Edit", "w250")
+	MyGui.Add("Text", "Section", "Enter number of rows: ") 
+	MyGui.Add("Edit", "w250")
+	MyGui.Add("Button", "Section w250", "Confirm")
+	MyGui.Show
 
-	BreakPage := "^{Enter}"
+	; Loop numOfCopies {
+	; 	Send "^{Enter}"
+	; 	sleep(100)
+	; 	Send "^v"
+	; 	sleep(100)
+	; }
+	MsgBox("hi")
+}
 
-	Loop numOfCopies {
-		Send BreakPage
-		sleep(100)
-		Send "^v"
-		sleep(100)
-	}
+CallTransferFn(*) {
+	MyGui := Gui("")
+	MyGui.SetFont("s12")
+	MyGui.Add("Text", "Section Center w250", "IT Society CPT")
+	MyGui.SetFont("s10")
+	MyGui.Add("Text","Section", "How many copies do you want?")
+	editValue = MyGui.Add("Edit", "w250")
+	ConfirmButton = MyGui.Add("Button", "Section w250 c0xFF2211", "Confirm")
+	ConfirmButton.OnEvent("click", MakeCopiesFn)
+	MyGui.Show
+
+	; PixelSearch(&OutputVarX, &OutputVarY, 0, 0, 600, 400, 0x1A73E8)
+
+	; if(!OutputVarX && !OutputVarY && numOfColumns && numOfRows) {
+	; 	MsgBox("Something went wrong...")
+	; 	return
+	; }
+
+	; MouseClick "Left", OutputVarX+10, OutputVarY+10
+
+	; Loop numOfRows {
+	; 	loopThroughColumnsFunc(numOfColumns)
+	; 	backToFirstColumnFunc(numOfColumns)
+	; }
 }
 
 loopThroughColumnsFunc(numOfColumns) {
